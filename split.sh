@@ -7,8 +7,7 @@ storagebase=$HOME/Lossless
 audiofiletxt=$cdir/audiofile.txt
 [[ ! -f "$audiofiletxt" ]] && touch "$audiofiletxt"
 
-
-
+## find all audio files
 find "$cdir" -regextype posix-extended -regex ".*(flac|wav|ape)$" > "$audiofiletxt"
 
 while read audiofile;
