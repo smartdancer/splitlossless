@@ -1,0 +1,4 @@
+#USAGE
+1. put the shell script in the directory where the flac and cue files are.
+
+2. The splited audio files are storaged in $HOME/Lossless
