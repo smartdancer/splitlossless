@@ -20,7 +20,7 @@ do
     [[ ! -f "$storagepath" ]] && mkdir -p "$storagepath"
     shnsplit -d "$storagepath" -f "$trackname".cue -o "flac flac -V --best -o %f -" "$audioname" -t "%n%p-%t"
     ## Delete the wrong track file
-    find "$storagepath" -type f -size -1024k -exec rm {} \;
+    find "$storagepath" -regextype posix-extended -regex ".*/00.*" -exec rm {} \;
     cuetag.sh "$trackname".cue "$storagepath"/*."$audiotype"
 done < "$audiofiletxt"
 
