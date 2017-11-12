@@ -1,14 +1,43 @@
-#!/bin/bash -x
+#!/bin/bash  -x
 
 ## Date     20171109
 
 cdir=$(pwd)
+
+if [[ ! -d "$1" ]];then
+    sdir=$cdir
+    echo "Selected the current directory:"
+    echo "---------------------------------"
+    echo "$cdir"
+    echo "---------------------------------"
+else
+   case $1 in
+        -h | --help)
+            echo "Usage: $0 [Path]" 
+            echo "The default Path is the current directory@@@"
+            exit 1
+            ;;
+        *)
+            if [[ -d "$1" ]];then
+                cd "$1" && sdir=$(pwd)
+                echo "Selected directory:"
+                echo "---------------------------------"
+                echo "$1"
+                echo "---------------------------------"
+            else
+                echo "Usage: $0 [Path]"
+                exit 1
+            fi
+            ;;
+    esac
+fi
+
 storagebase=$HOME/Lossless
 audiofiletxt=$cdir/audiofile.txt
 [[ ! -f "$audiofiletxt" ]] && touch "$audiofiletxt"
 
 ## find all audio files
-find "$cdir" -regextype posix-extended -regex ".*(flac|wav|ape)$" > "$audiofiletxt"
+find "$sdir" -regextype posix-extended -regex ".*(flac|wav|ape)$" | sort >  "$audiofiletxt"
 
 while read audiofile;
 do
@@ -24,5 +53,5 @@ do
     cuetag.sh "$trackname".cue "$storagepath"/*."$audiotype"
 done < "$audiofiletxt"
 
-cd "$cdir"
+cd "$sdir"
 rm "$audiofiletxt"
