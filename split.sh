@@ -56,7 +56,7 @@ do
         [[ -n "$codetype" ]] && iconv -f ISO-8859-1 -t UTF-8 -o "${trackname}.cue" "${trackname}.cue"
         shnsplit -d "$tmpdir" -f "$trackname".cue -o "flac flac --no-utf8-convert -V --best -o %f -" "$audioname" -t "%n%p-%t"
         ## Delete the wrong track file
-        find "$storagepath" -regextype posix-extended -regex ".*/00.*" -exec rm {} \;
+        find "$tmpdir" -regextype posix-extended -regex ".*/00.*" -exec rm {} \;
         cuetag.sh "$trackname".cue "$tmpdir"/*.flac
     elif [[ -f "${audioname}.cue" ]];then
         ## convert file encode to utf-8
